@@ -2,9 +2,12 @@ package com.lfy.mallproduct.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lfy.common.utils.PageUtils;
+import com.lfy.mallproduct.product.entity.AttrAttrgroupRelationEntity;
 import com.lfy.mallproduct.product.entity.AttrEntity;
+import com.lfy.mallproduct.product.vo.AttrRespVo;
 import com.lfy.mallproduct.product.vo.AttrVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +23,14 @@ public interface AttrService extends IService<AttrEntity> {
 
     void saveAttr(AttrVo attr);
 
-    PageUtils queryBaseAttrPage(Map<String, Object> params, Long catelogId);
+    PageUtils queryBaseAttrPage(Map<String, Object> params, Long catelogId, String type);
+
+    AttrRespVo getAttrInfo(Long attrId);
+
+    void updateAttr(AttrVo attr);
+
+    List<AttrEntity> getRelationAttr(Long attrgroupId);
+
+    PageUtils getNoRelationAttr(Map<String, Object> params, Long attrgroupId);
 }
 
