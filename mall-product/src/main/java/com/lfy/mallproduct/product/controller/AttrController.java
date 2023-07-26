@@ -1,16 +1,17 @@
 package com.lfy.mallproduct.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonPointer;
+import com.lfy.mallproduct.product.entity.ProductAttrValueEntity;
+import com.lfy.mallproduct.product.service.ProductAttrValueService;
 import com.lfy.mallproduct.product.vo.AttrRespVo;
 import com.lfy.mallproduct.product.vo.AttrVo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.lfy.mallproduct.product.entity.AttrEntity;
 import com.lfy.mallproduct.product.service.AttrService;
@@ -31,14 +32,25 @@ public class AttrController {
     @Autowired
     private AttrService attrService;
 
+    @Autowired
+    ProductAttrValueService productAttrValueService;
+
+    /// product/attr/ base/listforspu/ispuld}
+
+    @GetMapping("/base/listforspu/{spuld}")
+    //@RequiresPermissions("product:attr:list")
+    public R baseAttrListForspu(@PathVariable("spuld") Long spuId) {
+        List<ProductAttrValueEntity> productAttrValueEntityList = productAttrValueService.baseAttrListForspu(spuId);
+        return R.ok().put("data", productAttrValueEntityList);
+    }
 
     @RequestMapping("/{attrType}/list/{catelogId}")
     //@RequiresPermissions("product:attr:list")
     public R baseAttrList(@RequestParam Map<String, Object> params,
                           @PathVariable("catelogId") Long catelogId,
                           @PathVariable("attrType") String type) {
-        PageUtils page =  attrService.queryBaseAttrPage(params,catelogId,type);
-        return R.ok().put("page",page);
+        PageUtils page = attrService.queryBaseAttrPage(params, catelogId, type);
+        return R.ok().put("page", page);
     }
 
     /**
@@ -71,6 +83,18 @@ public class AttrController {
     //@RequiresPermissions("product:attr:save")
     public R save(@RequestBody AttrVo attr) {
         attrService.saveAttr(attr);
+
+        return R.ok();
+    }
+
+    /**
+     * 修改
+     */
+    @RequestMapping("/update/{spuId}")
+    //@RequiresPermissions("product:attr:update")
+    public R updateSpuAttr(@PathVariable("spuId") Long spuId,
+                           @RequestBody List<ProductAttrValueEntity> entities) {
+        productAttrValueService.updateSpuAttr(spuId,entities);
 
         return R.ok();
     }

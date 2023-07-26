@@ -3,8 +3,11 @@ package com.lfy.mallproduct.product.controller;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.lfy.mallproduct.product.entity.BrandEntity;
+import com.lfy.mallproduct.product.vo.BrandVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +31,23 @@ public class CategoryBrandRelationController {
     @Autowired
     private CategoryBrandRelationService categoryBrandRelationService;
 
+    /**
+     * /product/categorybrandrelation/brands/list
+     * 1、controller：处理请求，接受和校验数据
+     * 2、Service接受Controller传来的数据，进行业务处理
+     * 3、Controller接受Service处理完的数据，封装页面指定的vo
+     */
+    @GetMapping("/brands/list")
+    public R relationBrandList(@RequestParam(value = "catId",required = true) Long catId){
+        List<BrandEntity> brandEntities =  categoryBrandRelationService.getBrandsByCatId(catId);
+        List<BrandVo> brandVos = brandEntities.stream().map(brand -> {
+            BrandVo brandVo = new BrandVo();
+            brandVo.setBrandId(brand.getBrandId());
+            brandVo.setBrandName(brand.getName());
+            return brandVo;
+        }).collect(Collectors.toList());
+        return R.ok().put("data",brandVos);
+    }
 
     /**
      * 列表

@@ -5,8 +5,13 @@ package com.lfy.mallproduct.product.vo;/*
 
 import lombok.Data;
 
+/**
+ * @author lfy
+ */
 @Data
 public class AttrGroupRelationVo {
+
     private Long attrId;
+
     private Long attrGroupId;
 }

@@ -7,7 +7,7 @@ import com.lfy.common.utils.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@FeignClient("coupon")
+@FeignClient("mall-coupon")
 public interface CouponFeginService {
 
     @RequestMapping("/coupon/coupon/member/list")

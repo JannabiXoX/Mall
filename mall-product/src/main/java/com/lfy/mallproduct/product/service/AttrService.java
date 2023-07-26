@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.lfy.common.utils.PageUtils;
 import com.lfy.mallproduct.product.entity.AttrAttrgroupRelationEntity;
 import com.lfy.mallproduct.product.entity.AttrEntity;
+import com.lfy.mallproduct.product.entity.ProductAttrValueEntity;
 import com.lfy.mallproduct.product.vo.AttrRespVo;
 import com.lfy.mallproduct.product.vo.AttrVo;
 
@@ -32,5 +33,7 @@ public interface AttrService extends IService<AttrEntity> {
     List<AttrEntity> getRelationAttr(Long attrgroupId);
 
     PageUtils getNoRelationAttr(Map<String, Object> params, Long attrgroupId);
+
+    List<Long> selectSearchAttrIds(List<Long> attrIds);
 }
 

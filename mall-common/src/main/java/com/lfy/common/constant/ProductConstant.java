@@ -1,9 +1,9 @@
-package com.lfy.common.constant;/*
- *@Author:user
+package com.lfy.common.constant;
+/*
+ *@Author:feiyang
  *@Date:7/15/2023 5:54 PM
  */
 
-import lombok.Data;
 
 
 public class ProductConstant {
@@ -16,6 +16,28 @@ public class ProductConstant {
         private String msg;
 
         AttrEnum(int code, String msg) {
+            this.code = code;
+            this.msg = msg;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+    }
+
+    public enum StatusEnum {
+        NEW_SPU(0, "新建"),
+        SPU_UP(1,"商品上架"),
+        SPU_DOWN(2,"商品下架");
+
+        private int code;
+        private String msg;
+
+        StatusEnum(int code, String msg) {
             this.code = code;
             this.msg = msg;
         }

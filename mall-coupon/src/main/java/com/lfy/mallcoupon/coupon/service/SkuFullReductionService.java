@@ -1,6 +1,7 @@
 package com.lfy.mallcoupon.coupon.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lfy.common.to.SkuReductionTo;
 import com.lfy.common.utils.PageUtils;
 import com.lfy.mallcoupon.coupon.entity.SkuFullReductionEntity;
 
@@ -16,5 +17,7 @@ import java.util.Map;
 public interface SkuFullReductionService extends IService<SkuFullReductionEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    void saveSkuReduction(SkuReductionTo skuReductionTo);
 }
 

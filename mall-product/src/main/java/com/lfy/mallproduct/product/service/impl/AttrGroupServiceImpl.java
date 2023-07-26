@@ -1,12 +1,17 @@
 package com.lfy.mallproduct.product.service.impl;
 
+import com.alibaba.nacos.shaded.org.checkerframework.checker.units.qual.A;
 import com.lfy.mallproduct.product.dao.AttrAttrgroupRelationDao;
 import com.lfy.mallproduct.product.entity.AttrAttrgroupRelationEntity;
+import com.lfy.mallproduct.product.entity.AttrEntity;
+import com.lfy.mallproduct.product.service.AttrService;
 import com.lfy.mallproduct.product.vo.AttrGroupRelationVo;
+import com.lfy.mallproduct.product.vo.AttrGroupWithAttrsVo;
 import io.netty.util.internal.StringUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -30,6 +35,9 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
 
     @Autowired
     AttrAttrgroupRelationDao relationDao;
+
+    @Autowired
+    AttrService attrService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -79,6 +87,27 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
             return relationEntity;
         }).collect(Collectors.toList());
         relationDao.deleteBatchRelation(relationEntities);
+    }
+
+    /**
+     * 根据分类Id查出所有的分组以及这些组里的属性
+     * @param catelogId
+     * @return
+     */
+    @Override
+    public List<AttrGroupWithAttrsVo> getAttrGroupWithAttrsByCatelogId(Long catelogId) {
+        //1.查询分组信息
+        List<AttrGroupEntity> attrGroupEntities = this.list(new QueryWrapper<AttrGroupEntity>().eq("catelog_id", catelogId));
+        //2.查询所有属性
+        List<AttrGroupWithAttrsVo> attrGroupWithAttrsVos = attrGroupEntities.stream().map(group -> {
+            AttrGroupWithAttrsVo attrsVo = new AttrGroupWithAttrsVo();
+            BeanUtils.copyProperties(group,attrsVo);
+            List<AttrEntity> attrs = attrService.getRelationAttr(attrsVo.getAttrGroupId());
+            attrsVo.setAttrs(attrs);
+            return attrsVo;
+        }).collect(Collectors.toList());
+
+        return attrGroupWithAttrsVos;
     }
 
 }
