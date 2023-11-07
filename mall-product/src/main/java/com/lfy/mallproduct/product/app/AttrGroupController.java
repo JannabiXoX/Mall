@@ -1,18 +1,15 @@
-package com.lfy.mallproduct.product.controller;
+package com.lfy.mallproduct.product.app;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.lfy.mallproduct.product.dao.AttrAttrgroupRelationDao;
-import com.lfy.mallproduct.product.entity.AttrAttrgroupRelationEntity;
 import com.lfy.mallproduct.product.entity.AttrEntity;
 import com.lfy.mallproduct.product.service.AttrAttrgroupRelationService;
 import com.lfy.mallproduct.product.service.AttrService;
 import com.lfy.mallproduct.product.service.CategoryService;
 import com.lfy.mallproduct.product.vo.AttrGroupRelationVo;
 import com.lfy.mallproduct.product.vo.AttrGroupWithAttrsVo;
-import com.lfy.mallproduct.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +17,6 @@ import com.lfy.mallproduct.product.entity.AttrGroupEntity;
 import com.lfy.mallproduct.product.service.AttrGroupService;
 import com.lfy.common.utils.PageUtils;
 import com.lfy.common.utils.R;
-
-import javax.annotation.Resource;
 
 
 /**

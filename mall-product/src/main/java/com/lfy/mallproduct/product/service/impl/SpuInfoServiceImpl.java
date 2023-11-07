@@ -1,6 +1,7 @@
 package com.lfy.mallproduct.product.service.impl;
 
 import com.alibaba.druid.util.StringUtils;
+import com.alibaba.fastjson.TypeReference;
 import com.lfy.common.constant.ProductConstant;
 import com.lfy.common.to.SkuReductionTo;
 import com.lfy.common.to.SpuBoundTo;
@@ -254,8 +255,9 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         List<Long> skuIds = skus.stream().map(SkuInfoEntity::getSkuId).collect(Collectors.toList());
         Map<Long, Boolean> stockMap = null;
         try {
-            R<List<SkuHasStockVo>> skusHasStock = wareFeginService.getSkusHasStock(skuIds);
-            stockMap = skusHasStock.getData().stream()
+            R r = wareFeginService.getSkusHasStock(skuIds);
+            TypeReference<List<SkuHasStockVo>> listTypeReference = new TypeReference<List<SkuHasStockVo>>(){};
+            stockMap = r.getData(listTypeReference).stream()
                     .collect(Collectors.toMap(SkuHasStockVo::getSkuId,  item -> item.isHasStock()));
         }catch (Exception e){
             log.error("库存服务查询异常：原因{}",e);

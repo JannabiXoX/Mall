@@ -1,4 +1,4 @@
-package com.lfy.mallproduct.product.controller;
+package com.lfy.mallproduct.product.app;
 
 import java.util.Arrays;
 import java.util.Map;

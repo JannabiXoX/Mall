@@ -27,18 +27,18 @@ public class ElasticSaveController {
     ProductSaveService productSaveService;
 
     @PostMapping("/product")
-    public R productStartUp(@RequestBody List<SkuEsModel> skuEsModels) {
+    public R productStatusUp(@RequestBody List<SkuEsModel> skuEsModels) {
         boolean b = false;
         try {
-            b = productSaveService.productStartUp(skuEsModels);
+            b = productSaveService.productStatusUp(skuEsModels);
         } catch (Exception e) {
             log.error("ElasticSaveController商品上架错误", e);
             return R.error(BizCodeEnume.PRODUCT_UP_EXEPTION.getCode(), BizCodeEnume.PRODUCT_UP_EXEPTION.getMsg());
         }
         if (b) {
-            return R.ok();
-        } else {
             return R.error(BizCodeEnume.PRODUCT_UP_EXEPTION.getCode(), BizCodeEnume.PRODUCT_UP_EXEPTION.getMsg());
+        } else {
+            return R.ok();
         }
     }
 }

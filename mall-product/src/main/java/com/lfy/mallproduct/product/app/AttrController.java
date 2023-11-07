@@ -1,19 +1,16 @@
-package com.lfy.mallproduct.product.controller;
+package com.lfy.mallproduct.product.app;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.core.JsonPointer;
 import com.lfy.mallproduct.product.entity.ProductAttrValueEntity;
 import com.lfy.mallproduct.product.service.ProductAttrValueService;
 import com.lfy.mallproduct.product.vo.AttrRespVo;
 import com.lfy.mallproduct.product.vo.AttrVo;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.lfy.mallproduct.product.entity.AttrEntity;
 import com.lfy.mallproduct.product.service.AttrService;
 import com.lfy.common.utils.PageUtils;
 import com.lfy.common.utils.R;

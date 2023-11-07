@@ -32,7 +32,7 @@ public class ProductSaveServiceImpl implements ProductSaveService {
     RestHighLevelClient restHighLevelClient;
 
     @Override
-    public boolean productStartUp(List<SkuEsModel> skuEsModels) throws IOException {
+    public boolean productStatusUp(List<SkuEsModel> skuEsModels) throws IOException {
         //保存到es
         //给es中建立索引 product
         //给es保存这些数据

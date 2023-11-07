@@ -11,5 +11,5 @@ import java.util.List;
  * @Date:7/24/2023 9:59 PM
  */
 public interface ProductSaveService {
-    boolean productStartUp(List<SkuEsModel> skuEsModels) throws IOException;
+    boolean productStatusUp(List<SkuEsModel> skuEsModels) throws IOException;
 }
