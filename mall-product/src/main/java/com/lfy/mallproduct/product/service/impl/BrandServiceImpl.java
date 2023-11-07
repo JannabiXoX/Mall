@@ -1,8 +1,8 @@
 package com.lfy.mallproduct.product.service.impl;
 
 import com.alibaba.druid.util.StringUtils;
+import com.alibaba.nacos.shaded.io.grpc.netty.shaded.io.netty.util.internal.StringUtil;
 import com.lfy.mallproduct.product.service.CategoryBrandRelationService;
-import io.netty.util.internal.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Map;

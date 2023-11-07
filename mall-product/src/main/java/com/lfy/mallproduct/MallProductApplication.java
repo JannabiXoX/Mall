@@ -60,6 +60,11 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  *  4)、页面修改不重启服务器实时更新
  *     1) 、引入dev-tools
  *     2)、修改完页面controLLer shift f9重新自动编译下页面
+ *
+ *  6.整合redis
+ *  1）、引入data-redis-starter
+ *  2）、简单配置redis的host等信息
+ *  3）、使用SpringBoot自动配置好的StringRedisTemplate
  */
 @EnableFeignClients(basePackages = "com.lfy.mallproduct.feign")
 @MapperScan("com.lfy.mallproduct.product.dao")

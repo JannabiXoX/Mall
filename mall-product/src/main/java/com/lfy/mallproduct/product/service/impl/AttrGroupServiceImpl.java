@@ -7,11 +7,9 @@ import com.lfy.mallproduct.product.entity.AttrEntity;
 import com.lfy.mallproduct.product.service.AttrService;
 import com.lfy.mallproduct.product.vo.AttrGroupRelationVo;
 import com.lfy.mallproduct.product.vo.AttrGroupWithAttrsVo;
-import io.netty.util.internal.StringUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
