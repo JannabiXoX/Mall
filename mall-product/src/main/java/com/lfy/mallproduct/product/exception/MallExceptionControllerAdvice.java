@@ -1,4 +1,4 @@
-package com.lfy.mallproduct.exception;/*
+package com.lfy.mallproduct.product.exception;/*
  *@Author:user
  *@Date:7/10/2023 10:26 PM
  */
@@ -11,9 +11,7 @@ import com.lfy.common.utils.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;

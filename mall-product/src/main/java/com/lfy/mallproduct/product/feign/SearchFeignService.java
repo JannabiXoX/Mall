@@ -1,4 +1,4 @@
-package com.lfy.mallproduct.feign;
+package com.lfy.mallproduct.product.feign;
 
 import com.lfy.common.to.es.SkuEsModel;
 import com.lfy.common.utils.R;

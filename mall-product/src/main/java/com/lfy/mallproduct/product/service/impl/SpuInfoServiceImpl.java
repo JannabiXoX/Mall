@@ -7,15 +7,14 @@ import com.lfy.common.to.SkuReductionTo;
 import com.lfy.common.to.SpuBoundTo;
 import com.lfy.common.to.es.SkuEsModel;
 import com.lfy.common.utils.R;
-import com.lfy.mallproduct.feign.CouponFeignService;
-import com.lfy.mallproduct.feign.SearchFeignService;
-import com.lfy.mallproduct.feign.WareFeginService;
+import com.lfy.mallproduct.product.feign.CouponFeignService;
+import com.lfy.mallproduct.product.feign.SearchFeignService;
+import com.lfy.mallproduct.product.feign.WareFeginService;
 import com.lfy.mallproduct.product.entity.*;
 import com.lfy.mallproduct.product.service.*;
 import com.lfy.mallproduct.product.vo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

@@ -1,10 +1,9 @@
-package com.lfy.mallproduct.feign;/*
+package com.lfy.mallproduct.product.feign;/*
  *@Author:user
  *@Date:7/23/2023 11:23 AM
  */
 
 import com.lfy.common.utils.R;
-import com.lfy.mallproduct.product.vo.SkuHasStockVo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

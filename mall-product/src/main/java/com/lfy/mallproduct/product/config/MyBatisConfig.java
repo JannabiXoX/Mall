@@ -1,4 +1,4 @@
-package com.lfy.mallproduct.config;/*
+package com.lfy.mallproduct.product.config;/*
  *@Author:user
  *@Date:7/12/2023 7:27 PM
  */

@@ -1,4 +1,4 @@
-package com.lfy.mallproduct.feign;/*
+package com.lfy.mallproduct.product.feign;/*
  *@Author:user
  *@Date:7/17/2023 10:55 AM
  */
