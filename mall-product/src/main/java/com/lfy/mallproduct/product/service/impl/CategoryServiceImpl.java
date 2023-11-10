@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.lfy.mallproduct.product.service.CategoryBrandRelationService;
 import com.lfy.mallproduct.product.vo.Catelog2Vo;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -36,6 +38,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
     @Autowired
     StringRedisTemplate redisTemplate;
+
+    @Autowired
+    RedissonClient redisson;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -123,12 +128,38 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     // 解决方案 1.升级lettuce客户端 2.使用jedis
 
 
+    /**
+     * 如何保证数据一致性
+     * 1.双写模式
+     * 2.失效模式
+     * 一致性解决方案
+     * 缓存所有数据都有过期时间，数据过期下次查询触发主动更新
+     * 读写数据的时候，加上分布式的读写锁
+     * 经常写经常读
+     * @return
+     */
+    public Map<String, List<Catelog2Vo>> getCatalogJsonFromDBWithRedissonLock() {
+
+        // 占分布式锁
+        // 锁的粒度，具体到缓存的是某个数据 如 product-11-lock
+        RLock lock = redisson.getLock("catalogJson-Lock");
+        lock.lock();
+        Map<String, List<Catelog2Vo>> dataFromDb;
+        try {
+            dataFromDb = getDataFromDb();
+        } finally {
+            lock.unlock();
+        }
+        return dataFromDb;
+
+    }
+
     public Map<String, List<Catelog2Vo>> getCatalogJsonFromDBWithRedisLock() {
 
         String uuid = UUID.randomUUID().toString();
         // 占分布式锁
-        Boolean lock = redisTemplate.opsForValue().setIfAbsent("lock", uuid,300,TimeUnit.SECONDS);
-        if (lock){
+        Boolean lock = redisTemplate.opsForValue().setIfAbsent("lock", uuid, 300, TimeUnit.SECONDS);
+        if (lock) {
             // 加锁成功...执行业务
             // 设置过期时间
             System.out.println("获取分布式锁成功");
@@ -137,9 +168,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                 dataFromDb = getDataFromDb();
             } finally {
                 String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
-                redisTemplate.execute(new DefaultRedisScript<Long>(script,Long.class)
-                        ,Arrays.asList("lock")
-                        ,uuid);
+                redisTemplate.execute(new DefaultRedisScript<Long>(script, Long.class)
+                        , Arrays.asList("lock")
+                        , uuid);
             }
 //            String lockValue = redisTemplate.opsForValue().get("lock");
 //            if (uuid.equals(lockValue)) {
@@ -152,7 +183,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
             System.out.println("获取分布式锁失败重试");
             try {
                 TimeUnit.MILLISECONDS.sleep(200);
-            } catch (Exception e){
+            } catch (Exception e) {
                 log.error("线程超时问题");
             }
             return getCatalogJsonFromDBWithRedisLock();

@@ -5,19 +5,14 @@ import com.lfy.mallproduct.product.entity.CategoryEntity;
 import com.lfy.mallproduct.product.service.CategoryService;
 import com.lfy.mallproduct.product.vo.Catelog2Vo;
 import org.omg.CORBA.PUBLIC_MEMBER;
-import org.redisson.api.RLock;
-import org.redisson.api.RReadWriteLock;
-import org.redisson.api.RedissonClient;
+import org.redisson.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -138,4 +133,57 @@ public class IndexController {
 
         return s;
     }
+
+    /**
+     * 车库停车
+     * 3车位
+     * 信号量也可以用作分布式限流
+     */
+    @GetMapping("/park")
+    @ResponseBody
+    public String park() throws InterruptedException {
+        RSemaphore park = redisson.getSemaphore("park");
+        // 获取一个信号，获取一个值，占一个车位
+//        park.acquire();
+        boolean b = park.tryAcquire();
+
+        return "ok>=" + b;
+    }
+
+
+    @GetMapping("/go")
+    @ResponseBody
+    public String go() {
+        RSemaphore park = redisson.getSemaphore("park");
+        // 释放一个车位
+        park.release();
+
+        return "ok";
+    }
+
+    /**
+     * 放假，锁门
+     * 1班没人
+     * 5个班全部走完，可以锁大门
+     */
+    @GetMapping("/lockDoor")
+    @ResponseBody
+    public String lockDoor() throws InterruptedException {
+        RCountDownLatch door = redisson.getCountDownLatch("door");
+        //5个班 5个信号量
+        door.trySetCount(5);
+        door.await();
+        return "放假了";
+    }
+
+    @GetMapping("/gogogo/{id}")
+    @ResponseBody
+    public String gogogo(@PathVariable("id") Long id) {
+        RCountDownLatch door = redisson.getCountDownLatch("door");
+        door.countDown();//减一
+        return id + "班走完了";
+    }
+
+
+
 }
